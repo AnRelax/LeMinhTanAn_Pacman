@@ -6,10 +6,13 @@ public class GameManager : MonoBehaviour
     public Pacman pacman;
     public Transform pellets;
 
-    public Text gameOverText;
+    public GameObject gameOverText;
     public Text scoreText;
     public Text livesText;
+    public Text highScoreText;
+    public AudioClip nhacNen;
 
+    int scoreCheck = 0;
     public int ghostMultiplier{get; private set;} =1;
 
     public int score{
@@ -26,6 +29,7 @@ public class GameManager : MonoBehaviour
         if(this.lives<=0 && Input.anyKeyDown){
             NewGame();
         }
+        
     }
     private void NewGame(){
         SetScore(0);
@@ -33,7 +37,7 @@ public class GameManager : MonoBehaviour
         NewRound();
     }
     private void NewRound(){
-        gameOverText.enabled = false;
+        gameOverText.SetActive(false);
         foreach(Transform pellet in this.pellets){
             pellet.gameObject.SetActive(true);
         }
@@ -47,7 +51,11 @@ public class GameManager : MonoBehaviour
         this.pacman.ResetState();
     }
     private void GameOver(){
-        gameOverText.enabled = true;
+        gameOverText.SetActive(true);
+        if(int.Parse(scoreText.text) > int.Parse(highScoreText.text)){
+            highScoreText.text = scoreText.text;
+            PlayerPrefs.SetInt("highScore", int.Parse(highScoreText.text));
+        }
         for(int i = 0; i < this.ghosts.Length; i++){
             this.ghosts[i].gameObject.SetActive(false);
         }
@@ -56,10 +64,11 @@ public class GameManager : MonoBehaviour
     private void SetScore(int score){
         this.score = score;
         scoreText.text = score.ToString().PadLeft(2, '0');
+        highScoreText.text = PlayerPrefs.GetInt("highScore").ToString();
     }
     private void SetLives(int lives){
         this.lives = lives;
-        livesText.text = "x" + lives.ToString();
+        livesText.text = lives.ToString() + "UP";
     }
     public void GhostEaten(Ghost ghost){
         int points = ghost.points * this.ghostMultiplier;
@@ -104,6 +113,10 @@ public class GameManager : MonoBehaviour
             }
         }
         Debug.Log("het pellet roi !");
+        if(int.Parse(scoreText.text) > int.Parse(highScoreText.text)){
+            highScoreText.text = scoreText.text;
+            PlayerPrefs.SetInt("highScore", int.Parse(highScoreText.text));
+        }
         return false;
     }
     private void ResetGhostMultiplier(){
