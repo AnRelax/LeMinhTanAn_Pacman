@@ -7,7 +7,7 @@ public abstract class GhostBehavior : MonoBehaviour
     public float duration;
     private void Awake() {
         this.ghost = GetComponent<Ghost>();
-        //this.enabled = false;
+        this.enabled = false;
     }
     public void Enabled(){
         Enabled(this.duration);

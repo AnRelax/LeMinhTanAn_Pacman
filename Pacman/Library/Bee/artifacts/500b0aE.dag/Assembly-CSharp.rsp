@@ -104,6 +104,7 @@
 -define:ENABLE_TILEMAP
 -define:ENABLE_TIMELINE
 -define:ENABLE_LEGACY_INPUT_MANAGER
+-define:UNITY_POST_PROCESSING_STACK_V2
 -define:CSHARP_7_OR_LATER
 -define:CSHARP_7_3_OR_NEWER
 -r:"C:/lam game Unity 2D/Pacman/Library/PackageCache/com.unity.nuget.newtonsoft-json@2.0.0/Runtime/Newtonsoft.Json.dll"
@@ -322,6 +323,8 @@
 -r:"Library/Bee/artifacts/500b0aE.dag/Unity.Mathematics.Editor.ref.dll"
 -r:"Library/Bee/artifacts/500b0aE.dag/Unity.Mathematics.ref.dll"
 -r:"Library/Bee/artifacts/500b0aE.dag/Unity.PlasticSCM.Editor.ref.dll"
+-r:"Library/Bee/artifacts/500b0aE.dag/Unity.Postprocessing.Editor.ref.dll"
+-r:"Library/Bee/artifacts/500b0aE.dag/Unity.Postprocessing.Runtime.ref.dll"
 -r:"Library/Bee/artifacts/500b0aE.dag/Unity.Rider.Editor.ref.dll"
 -r:"Library/Bee/artifacts/500b0aE.dag/Unity.TextMeshPro.Editor.ref.dll"
 -r:"Library/Bee/artifacts/500b0aE.dag/Unity.TextMeshPro.ref.dll"
@@ -340,12 +343,18 @@
 "Assets/Scripts/GhostFrightened.cs"
 "Assets/Scripts/GhostHome.cs"
 "Assets/Scripts/GhostScatter.cs"
+"Assets/Scripts/HoverButton.cs"
 "Assets/Scripts/Movement.cs"
 "Assets/Scripts/Node.cs"
 "Assets/Scripts/Pacman.cs"
 "Assets/Scripts/Passage.cs"
 "Assets/Scripts/Pellet.cs"
+"Assets/Scripts/PelletState.cs"
 "Assets/Scripts/PowerPellet.cs"
+"Assets/Scripts/SaveLoadGame.cs"
+"Assets/Scripts/ScriptMenu/GameMenu.cs"
+"Assets/Scripts/ScriptMenu/SpamEffectLeft.cs"
+"Assets/Scripts/ScriptMenu/SpamEffectRight.cs"
 "Assets/TextMesh Pro/Examples & Extras/Scripts/Benchmark01.cs"
 "Assets/TextMesh Pro/Examples & Extras/Scripts/Benchmark01_UGUI.cs"
 "Assets/TextMesh Pro/Examples & Extras/Scripts/Benchmark02.cs"

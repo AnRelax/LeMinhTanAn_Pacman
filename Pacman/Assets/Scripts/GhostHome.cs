@@ -13,6 +13,11 @@ public class GhostHome : GhostBehavior
             StartCoroutine(ExitTransition());
         }
     }
+    private void OnCollisionEnter2D(Collision2D other) {
+        if(this.enabled && other.gameObject.layer == LayerMask.NameToLayer("Obstacle")){
+            this.ghost.movement.SetDirection(-this.ghost.movement.direction);
+        }
+    }
     private IEnumerator ExitTransition(){
         this.ghost.movement.SetDirection(Vector2.up, true);
         this.ghost.movement.rigidbody.isKinematic = true;
@@ -31,7 +36,7 @@ public class GhostHome : GhostBehavior
         }
 
         this.ghost.movement.SetDirection(new Vector2(Random.value < 0.5f ? -1.0f : 1.0f, 0.0f), true);
-        this.ghost.movement.rigidbody.isKinematic = true;
+        this.ghost.movement.rigidbody.isKinematic = false;
         this.ghost.movement.enabled = true;
     }
 }
