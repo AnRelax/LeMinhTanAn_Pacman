@@ -19,7 +19,11 @@ public class GameManager : MonoBehaviour
 
     private AudioSource audioSource;
     public AudioClip startAudio;
-    public AudioClip nenAudio;
+    public AudioClip nenAudio1;
+    public AudioClip nenAudio2;
+    public AudioClip nenAudio3;
+    public AudioClip nenAudio4;
+    public AudioClip nenAudio5;
     public AudioClip eatenPelletAudio;
     public AudioClip eatenPowerPelletAudio;
     public AudioClip eatenGhostAudio;
@@ -30,6 +34,7 @@ public class GameManager : MonoBehaviour
     private bool checkPacmanEatenAudio;
     private bool checkPlayPacmanEatenAudio;
     private string checkSaveLoad;
+    public static int checkPowerPellet;
     public int ghostMultiplier{get; private set;} =1;
 
     public int score{
@@ -43,8 +48,7 @@ public class GameManager : MonoBehaviour
         checkSaveLoad = PlayerPrefs.GetString("CheckButton");
         if(checkSaveLoad.Equals("Continue")){
             NewGame();
-            FindObjectOfType<SaveLoadGame>().tai();
-            
+            StartCoroutine(LoadGame());
             if(lives == 3){
                 up1.SetActive(true);
                 up2.SetActive(true);
@@ -68,8 +72,12 @@ public class GameManager : MonoBehaviour
 
             checkPacmanEatenAudio = false;
             checkPlayPacmanEatenAudio = false;
+            audioSource.volume = PlayerPrefs.GetFloat("checkVolume");
+            
         } else{
             NewGame();
+            Time.timeScale = 0;
+            checkPowerPellet = 0;
             up1.SetActive(true);
             up2.SetActive(true);
             up3.SetActive(true);
@@ -80,19 +88,30 @@ public class GameManager : MonoBehaviour
 
             checkPacmanEatenAudio = false;
             checkPlayPacmanEatenAudio = false;
+            audioSource.volume = PlayerPrefs.GetFloat("checkVolume");
         }
         
     }
     IEnumerator PlayNenAudioAfterStartAudio()
     {
         yield return new WaitForSeconds(startAudio.length);
-        audioSource.clip = nenAudio;
+        audioSource.clip = nenAudio1;
         audioSource.playOnAwake = true;
         audioSource.loop = true;
         audioSource.Play();
         
     }
+    private IEnumerator LoadGame()
+    {
+        yield return new WaitForSeconds(0.01f);// chú ý
+        FindObjectOfType<SaveLoadGame>().tai();
+        Time.timeScale = 0;
+    }
     private void Update() {
+        if(score > int.Parse(highScoreText.text)){
+            highScoreText.text = score.ToString();
+            PlayerPrefs.SetInt("highScore", int.Parse(highScoreText.text));
+        }
         if(this.lives<=0 && Input.anyKeyDown){
             NewGame();
         }
@@ -100,7 +119,9 @@ public class GameManager : MonoBehaviour
         {
             NewRound();
         }
-        
+        if(Input.anyKeyDown){
+            Time.timeScale = 1;
+        }
     }
     
     private void NewGame(){
@@ -229,11 +250,17 @@ public class GameManager : MonoBehaviour
         audioSource.playOnAwake= true;
         audioSource.loop = true;
         audioSource.Play();
+        checkPowerPellet++;
         StartCoroutine(checkPlayPowerPelletAudio());
 
+        Movement.speed +=0.3f;
+
+        
         for(int i=0; i < this.ghosts.Length; i++){
             this.ghosts[i].frightened.Enabled(pellet.duration);
+            PlayerPrefs.SetFloat("durationGhostBehavior"+i,pellet.duration);
         }
+        PlayerPrefs.SetInt("checkGhostPowerPelletEaten",1);
 
         PelletEaten(pellet);
         CancelInvoke();
@@ -241,12 +268,37 @@ public class GameManager : MonoBehaviour
     }
     private IEnumerator checkPlayPowerPelletAudio(){
         yield return new WaitForSeconds(8.0f);
+        PlayerPrefs.SetInt("checkGhostPowerPelletEaten",0);
         if(HasRemainingPellets())
         {
-            audioSource.clip = nenAudio;
-            audioSource.playOnAwake= true;
-            audioSource.loop = true;
-            audioSource.Play();
+            if(checkPowerPellet == 0){
+                audioSource.clip = nenAudio1;
+                audioSource.playOnAwake= true;
+                audioSource.loop = true;
+                audioSource.Play();
+            }else if(checkPowerPellet == 1){
+                audioSource.clip = nenAudio2;
+                audioSource.playOnAwake= true;
+                audioSource.loop = true;
+                audioSource.Play();
+            }else if(checkPowerPellet == 2){
+                audioSource.clip = nenAudio3;
+                audioSource.playOnAwake= true;
+                audioSource.loop = true;
+                audioSource.Play();
+            }else if(checkPowerPellet == 3){
+                audioSource.clip = nenAudio4;
+                audioSource.playOnAwake= true;
+                audioSource.loop = true;
+                audioSource.Play();
+            }
+            else if(checkPowerPellet >=4){
+                audioSource.clip = nenAudio5;
+                audioSource.playOnAwake= true;
+                audioSource.loop = true;
+                audioSource.Play();
+            }
+            
         }
     }
     private bool HasRemainingPellets()
@@ -271,5 +323,7 @@ public class GameManager : MonoBehaviour
     }
     private void ResetGhostMultiplier(){
         this.ghostMultiplier = 1;
+        audioSource = GetComponent<AudioSource>();
+        audioSource.volume = PlayerPrefs.GetFloat("checkVolume");
     }
 }

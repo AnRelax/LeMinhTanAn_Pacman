@@ -5,13 +5,20 @@ public class GhostHome : GhostBehavior
 {
     public Transform inside;
     public Transform outside;
+    public int checkGhostHome{get; set;}
     private void OnEnable() {
         StopAllCoroutines();
     }
     private void OnDisable() {
-        if (gameObject.activeInHierarchy) {
-            StartCoroutine(ExitTransition());
+        if(checkGhostHome == 0){
+            if(gameObject.activeInHierarchy) {
+                StartCoroutine(ExitTransition());
+                checkGhostHome = 1;
+            }
         }
+    }
+    private void Start() {
+        checkGhostHome = 0;
     }
     private void OnCollisionEnter2D(Collision2D other) {
         if(this.enabled && other.gameObject.layer == LayerMask.NameToLayer("Obstacle")){

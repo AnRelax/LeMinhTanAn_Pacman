@@ -245,7 +245,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe3fde166515d6c4c99fa7a996208bd9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 8
   speedMultiplier: 1
   initialDirection: {x: -1, y: 0}
   obstacleLayer:
@@ -265,7 +264,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   initialBehavior: {fileID: 0}
   target: {fileID: 0}
-  points: 500
+  points: 50
 --- !u!114 &5517624615225068267
 MonoBehaviour:
   m_ObjectHideFlags: 0

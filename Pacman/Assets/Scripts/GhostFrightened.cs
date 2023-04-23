@@ -7,6 +7,7 @@ public class GhostFrightened : GhostBehavior
     public SpriteRenderer blue;
     public SpriteRenderer white;
     public bool eaten{get; private set;}
+    
     public override void Enabled(float duration){
         base.Enabled(duration);
         this.body.enabled = false;
@@ -14,7 +15,7 @@ public class GhostFrightened : GhostBehavior
         this.blue.enabled = true;
         this.white.enabled = false;
 
-        Invoke(nameof(Flash),duration/2.0f);
+        Invoke(nameof(Flash),duration/2.0f); 
     }
     public override void Disable()
     {
@@ -29,6 +30,7 @@ public class GhostFrightened : GhostBehavior
             this.blue.enabled = false;
             this.white.enabled = true;
             this.white.GetComponent<AnimatedSprite>().Restart();
+            PlayerPrefs.SetInt("checkGhostPowerPelletEaten",0);
         }
     }
     private void Eaten(){

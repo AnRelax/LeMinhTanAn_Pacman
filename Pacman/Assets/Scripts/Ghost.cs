@@ -4,15 +4,14 @@ using UnityEngine;
 [RequireComponent(typeof(Movement))]
 public class Ghost : MonoBehaviour
 {
-    public Movement movement {get; private set;}
+    public Movement movement {get; set;}
     public GhostHome home {get; private set;}
     public GhostScatter scatter {get; private set;}
     public GhostChase chase {get; private set;}
     public GhostFrightened frightened {get; private set;}
     public GhostBehavior initialBehavior;
     public Transform target;
-
-    public int points = 500;
+    public int points = 50;
     private void Awake() {
         this.movement = GetComponent<Movement>();
         this.home = GetComponent<GhostHome>();
@@ -23,12 +22,14 @@ public class Ghost : MonoBehaviour
     private void Start() {
         ResetState();
     }
+    
     public void ResetState(){
         this.gameObject.SetActive(true);
         this.movement.ResetState();
         this.frightened.Disable();
         this.chase.Disable();
         this.scatter.Enabled();
+        home.checkGhostHome = 0;
 
         if(this.home != this.initialBehavior){
             this.home.Disable();
